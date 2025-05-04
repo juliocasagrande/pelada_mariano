@@ -8,7 +8,7 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-  <button id="toggle-sidebar" class="btn btn-dark d-md-none m-2">☰ Menu</button>
+  <button class="btn btn-dark d-md-none m-2" onclick="toggleSidebar()">☰ Menu</button>
   <div class="d-flex">
     <nav class="bg-dark text-white p-3" id="sidebar">
       <h4>⚽ Peladinha</h4>
@@ -17,12 +17,10 @@
         <li class="nav-item"><a class="nav-link text-white" href="estatisticas.html">📊 Estatísticas</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="habilidades.html">🧠 Habilidades</a></li>
       </ul>
-    </nav>
+    </nav>    
 
     <div class="p-4" id="main-content">
-      <button id="toggle-sidebar" class="btn btn-outline-dark d-md-none mb-3">☰ Menu</button>
       <h2>Controle de Gastos</h2>
-
       <div class="card shadow-lg mb-4">
         <div class="card-body">
           <canvas id="graficoSaldo" height="250"></canvas>
@@ -42,23 +40,18 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="js/gastos.js"></script>
   <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("open");
+    }
     function toggleExpander() {
       const content = document.getElementById("expander-content");
       content.style.display = content.style.display === "none" ? "block" : "none";
     }
   </script>
-  <script>
-    const btn = document.getElementById("toggle-sidebar");
-    if (btn) {
-      btn.addEventListener("click", () => {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("open");
-      });
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="js/gastos.js"></script>
 </body>
 </html>
