@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,6 +8,7 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+  <button class="btn btn-dark d-md-none m-2" onclick="toggleSidebar()">☰ Menu</button>
   <div class="d-flex">
     <nav class="bg-dark text-white p-3" id="sidebar">
       <h4>⚽ Peladinha</h4>
@@ -30,9 +30,14 @@
       </select>
       <div id="jogadoresContainer" class="row"></div>
     </div>
-    
   </div>
 
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("open");
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="js/habilidades.js"></script>
