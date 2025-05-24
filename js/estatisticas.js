@@ -1,8 +1,9 @@
 async function carregarJogadores() {
-  const response = await fetch('data/jogadores.xlsx');
-  const arrayBuffer = await response.arrayBuffer();
-  const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-  const dados = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+  const urlJogadores = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUJmQbstUcf0r1dmmucbx0sn5qwUElZeGLTe5OBcIAxc2Kz_AmBoBX1bfOI4Ev-yAminlpdx01bbY-/pub?gid=557483612&single=true&output=csv'
+  const response = await fetch(urlJogadores);
+  const csv = await response.text();
+  const dados = Papa.parse(csv, { header: true }).data;
+
 
   // Ordenar e limitar os 5 primeiros por presenças
   const topPresencas = [...dados]

@@ -1,18 +1,26 @@
 async function carregarGastos() {
-  const response = await fetch("data/gastos.xlsx");
-  const arrayBuffer = await response.arrayBuffer();
-  const workbook = XLSX.read(arrayBuffer, { type: "array" });
-  const planilha = workbook.Sheets[workbook.SheetNames[0]];
-  const dados = XLSX.utils.sheet_to_json(planilha, { raw: false });
+  const urlGastos = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUJmQbstUcf0r1dmmucbx0sn5qwUElZeGLTe5OBcIAxc2Kz_AmBoBX1bfOI4Ev-yAminlpdx01bbY-/pub?gid=110850147&single=true&output=csv';
 
-  // Tratamento de dados: converter datas e valores
+  const response = await fetch(urlGastos);
+  const csv = await response.text();
+  const dados = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+
   const dadosTratados = dados
     .filter(linha => linha["Data"] && linha["Valor (R$)"])
     .map(linha => {
-      const dataExcel = linha["Data"];
       const tipo = linha["Tipo"]?.toLowerCase().trim();
-      const valor = parseFloat(linha["Valor (R$)"]);
-      const dataObj = new Date(dataExcel);
+
+      // Tratamento do valor
+      const valorStr = linha["Valor (R$)"]
+        .replace(/[R$\s]/g, '') // remove R$ e espaços
+        .replace(/\./g, '')     // remove pontos de milhar
+        .replace(',', '.');     // troca vírgula por ponto decimal
+      const valor = parseFloat(valorStr);
+
+      // Tratamento da data
+      const partesData = linha["Data"].split('/');
+      const dataObj = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+
       return {
         ...linha,
         Data: dataObj,
@@ -64,8 +72,8 @@ function renderizarGrafico(dados) {
         label: "Saldo acumulado",
         data: valoresAcumulados,
         fill: true,
-        backgroundColor: "rgba(220,53,69,0.2)",
-        borderColor: "rgba(220,53,69,1)",
+        backgroundColor: "rgba(77, 244, 0, 0.2)",
+        borderColor: "rgb(46, 250, 0)",
         tension: 0.3,
         pointRadius: 4
       }]
@@ -77,8 +85,10 @@ function renderizarGrafico(dados) {
       },
       scales: {
         y: {
-          beginAtZero: true
-        }
+          beginAtZero: true,
+          display: false,
+        },
+        
       }
     }
   });
