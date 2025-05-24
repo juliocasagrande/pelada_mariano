@@ -39,7 +39,7 @@ async function carregarJogadores() {
           ctx.arc(xPos, yPos + 30, 30, 0, Math.PI * 2);
           ctx.closePath();
           ctx.clip();
-          ctx.drawImage(img, xPos - 30, yPos, 60, 60);
+          ctx.drawImage(img, xPos - 25, yPos, 50, 60);
           ctx.restore();
         };
       });
